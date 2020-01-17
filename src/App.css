@@ -78,9 +78,12 @@ header{
 
 .message {
   border:1px solid white;
-  padding: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 3px;
+  padding-bottom: 3px;
   margin:.5% .5%;
-  border-radius: 15px;
+  border-radius: 10px;
   background:#051A27; 
   display:inline-block;
   font-family: 'Roboto', sans-serif;
@@ -132,7 +135,7 @@ header{
   overflow: hidden; 
 }
 
-.setEdit:disabled {
+.setEdit:focus {
   width:15%;
   height:20px;
   background:Transparent;
@@ -142,4 +145,17 @@ header{
 
 .editIcon {
   color:#051A27;
+
+}
+.editIcon:disabled {
+  color: Transparent;
+}
+
+.user {
+  font-size: 10px;
+  color:grey;
+  margin:.2% .2%;
+  padding-right: 3px;
+  display:inline-block;
+  font-family: 'Roboto', sans-serif;
 }

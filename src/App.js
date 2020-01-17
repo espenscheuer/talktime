@@ -14,15 +14,22 @@ function App() {
     
       <div className = "messages">
         {messages.map((m,i)=>{
-          return <div key = {i} className = "message-wrap">
-          <div  className = "message">
-              {m}
+          return <div>
+            <div key = {i} className = "message-wrap">
+              <div  className = "message">
+                {m.msg}
+              </div>
+            </div>
+            <div key = {i} className = "message-wrap">
+              <div  className = "user">
+                {m.user}
+              </div>
             </div>
           </div>
         })}
       
     </div>
-    <TextInput onSend={text => {setMessages([text, ...messages])}}/>
+    <TextInput onSend={text => {setMessages([{user:text, msg:text}, ...messages])}}/>
   </main>
   )
 }

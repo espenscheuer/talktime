@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import { MdModeEdit } from 'react-icons/md';
 
-function NamePicker(){
+function NamePicker(props){
     const [editName, setEditName] = useState(false)
     const [name, setName] = useState("name")
     return <div className = "center">
@@ -13,6 +13,7 @@ function NamePicker(){
             onChange = {e => {
                 if(editName) {
                     setName(e.target.value)
+                    props.name = name
                 }
             }}
             onKeyPress={e => {
@@ -23,11 +24,14 @@ function NamePicker(){
         />
         <button
             className = "setEdit"
+            focus = {!editName}
             onClick ={()=>{
                 setEditName(!editName)
             }}
         > 
-        <MdModeEdit className = "editIcon"/>
+        <MdModeEdit 
+        className = "editIcon"
+        disabled = {!editName}/>
         </button>  
     </div>
 }
