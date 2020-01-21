@@ -13,12 +13,13 @@ function NamePicker(props){
             onChange = {e => {
                 if(editName) {
                     setName(e.target.value)
-                    props.name = name
+                    props.makeName(name)
                 }
             }}
             onKeyPress={e => {
                 if(e.key==='Enter'){
                   setEditName(!editName)
+                  props.makeName(name)
                 }
             }}
         />
@@ -27,6 +28,7 @@ function NamePicker(props){
             focus = {!editName}
             onClick ={()=>{
                 setEditName(!editName)
+                props.makeName(name)
             }}
         > 
         <MdModeEdit 

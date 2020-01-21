@@ -92,7 +92,7 @@ header{
 .message-wrap{
   width:100%;
   display:flex;
-  flex-direction:row-reverse;
+  flex-direction: row-reverse;
 }
 .messages{
   position:absolute;
@@ -155,7 +155,7 @@ header{
   font-size: 10px;
   color:grey;
   margin:.2% .2%;
-  padding-right: 3px;
+  margin-right: 2px;
   display:inline-block;
   font-family: 'Roboto', sans-serif;
 }

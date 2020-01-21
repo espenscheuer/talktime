@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './App.css';
 import NamePicker from '.\\namePicker.js'
-
+var name = "name"
 function App() {
   const [messages, setMessages] = useState([])
   return (
@@ -9,27 +9,29 @@ function App() {
     <header>
     <img alt = "logo" className ="logo" src={require('.\\logo.png')} />
       talktime
-      <NamePicker/>
+      <NamePicker makeName={n => {
+          name = n
+         }}/>
     </header>
     
       <div className = "messages">
         {messages.map((m,i)=>{
-          return <div>
-            <div key = {i} className = "message-wrap">
-              <div  className = "message">
-                {m.msg}
+          return <div key = {i}>
+              <div className = "message-wrap">
+                <div  className = "message">
+                  {m.msg}
+                </div>
               </div>
-            </div>
-            <div key = {i} className = "message-wrap">
-              <div  className = "user">
-                {m.user}
+              <div className = "message-wrap">
+                <div  className = "user">
+                  {m.user}
+                </div>
               </div>
-            </div>
           </div>
         })}
       
     </div>
-    <TextInput onSend={text => {setMessages([{user:text, msg:text}, ...messages])}}/>
+    <TextInput onSend={text => {setMessages([{user:name, msg:text}, ...messages])}}/>
   </main>
   )
 }
