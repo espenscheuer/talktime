@@ -1,37 +1,45 @@
 import React, {useState} from 'react';
 import './App.css';
 import NamePicker from '.\\namePicker.js'
-var name = "name"
+import { db, useDB } from './db';
 function App() {
-  const [messages, setMessages] = useState([])
+
+  const [name, setName] = useState("name")  
+  const messages = useDB()
+
   return (
   <main> 
     <header>
-    <img alt = "logo" className ="logo" src={require('.\\logo.png')} />
-      talktime
-      <NamePicker makeName={n => {
-          name = n
-         }}/>
+      <div className = "logo-wrap">
+        <img alt = "logo" className ="logo" src={require('.\\logo.png')} />
+        talktime
+      </div>
+      <NamePicker makeName={setName}
+    />
     </header>
     
       <div className = "messages">
         {messages.map((m,i)=>{
           return <div key = {i}>
-              <div className = "message-wrap">
+              <div className = "message-wrap" from = {m.name === name ? "me" : "you"}>
                 <div  className = "message">
-                  {m.msg}
+                  {m.text}
                 </div>
               </div>
-              <div className = "message-wrap">
+              <div className = "message-wrap" from = {m.name === name ? "me" : "you"}>
                 <div  className = "user">
-                  {m.user}
+                  {m.name}
                 </div>
               </div>
           </div>
         })}
       
     </div>
-    <TextInput onSend={text => {setMessages([{user:name, msg:text}, ...messages])}}/>
+    <TextInput onSend={(text)=>{
+      db.send({
+        text,name,ts:new Date()
+      })
+    }}/>
   </main>
   )
 }
@@ -46,8 +54,10 @@ function TextInput(props) {
         onChange = {e => setText(e.target.value)}
         onKeyPress={e => {
           if(e.key==='Enter'){
-            if(text) props.onSend(text)
+            if(text){ 
+              props.onSend(text)
               setText('')
+            }
           }
         }}
       />

@@ -1,41 +1,67 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import './App.css';
-import { MdModeEdit } from 'react-icons/md';
+import { MdModeEdit, MdSave } from 'react-icons/md';
+
 
 function NamePicker(props){
     const [editName, setEditName] = useState(false)
     const [name, setName] = useState("name")
+    const inputEl = useRef(null);
+
+    function saveName () {
+        setEditName(!editName)
+        props.makeName(name)
+        localStorage.setItem('name', name)
+    }
+    
+    useEffect(()=> {
+        const n = localStorage.getItem('name')
+        if(n) {
+            setName(n)
+            props.makeName(n)
+        }
+    }, [])
+
     return <div className = "center">
         <input
+            ref={inputEl}
             disabled = {!editName}
-            className = "editName"
+            className = "nameInput"
             value = {name} 
             onChange = {e => {
                 if(editName) {
                     setName(e.target.value)
-                    props.makeName(name)
                 }
             }}
             onKeyPress={e => {
-                if(e.key==='Enter'){
-                  setEditName(!editName)
-                  props.makeName(name)
+                if(e.key ==='Enter'){
+                    if(name === ''){
+                        setName('name')
+                    }
+                    saveName()
                 }
             }}
         />
         <button
-            className = "setEdit"
-            focus = {!editName}
+            className = "nameBtn"
             onClick ={()=>{
-                setEditName(!editName)
-                props.makeName(name)
+                setTimeout(()=>{
+                    inputEl.current.focus()
+                    if (!editName) {
+                        setName('')
+                    } else {
+                        setName('name')
+                    }
+                },25)
+                inputEl.current.focus()
+                saveName()
             }}
-        > 
-        <MdModeEdit 
-        className = "editIcon"
-        disabled = {!editName}/>
+        >  
+        {!editName ? <MdModeEdit /> : <MdSave/>}
         </button>  
     </div>
 }
+
+
 
 export default NamePicker
