@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
+import './media.css';
 import NamePicker from '.\\namePicker.js'
 import { db, useDB } from './db';
 import { BrowserRouter, Route } from 'react-router-dom'
@@ -7,6 +8,7 @@ import { FiSend, FiCamera } from 'react-icons/fi'
 import Camera from 'react-snap-pic'
 import * as firebase from "firebase/app"
 import "firebase/storage"
+import Div100vh from 'react-div-100vh'
 
 
 function App() {
@@ -39,7 +41,7 @@ function Room(props) {
   }
 
   return (
-  <main> 
+  <Div100vh> 
     <header>
       <div className = "logo-wrap">
         <img alt = "logo" className ="logo" src={require('.\\logo.png')} />
@@ -62,7 +64,7 @@ function Room(props) {
     }}
     setCamera={()=>{setShowCamera(!showCamera)}}
     />
-  </main>
+  </Div100vh>
   )
 }
 
@@ -72,10 +74,8 @@ const suffix = '.jpg?alt=media'
 function Message({m, name}) {
   return <div onClick = {() => db.delete(m.id)}>
   <div className = "message-wrap" from = {m.name === name ? "me" : "you"}>
-    <div  className = "message">
-      {m.text}
-      {m.img && <img className = 'msgpic'src ={bucket + m.img +suffix} alt = "pic" />}
-    </div>
+    {m.text && <div  className = "message">{m.text} </div>}
+    {m.img && <div className = "msg-wrap"> <img className = 'msgpic'src ={bucket + m.img +suffix} alt = "pic" /> </div>}
   </div>
   <div className = "message-wrap" from = {m.name === name ? "me" : "you"}>
     <div  className = "user">
