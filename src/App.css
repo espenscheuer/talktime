@@ -63,15 +63,21 @@ header{
   margin-bottom: 10px;
 }
 
+.name-wrap {
+  position:relative;
+  display: flex;
+  align-items:center;
+}
+
 .text-input{
   outline:none;
+  border:1px solid white;
   width:70%;
   padding: 1em;
   background: #051A27;
   border-radius: 30px;
   margin-right: 1%;
   margin-left: 1%;
-  border: none;
   color:white;
   font-family: 'Roboto', sans-serif;
 }
@@ -103,6 +109,7 @@ header{
   width:100%;
   display:flex;
   padding-left: 3px;
+  overflow: auto;
   flex-direction: row;
   word-break: break-all;
   word-break: break-word;
@@ -110,10 +117,11 @@ header{
 
 .messages{
   position:absolute;
-  top: 90px;
+  bottom: 0;
+  padding-bottom: 60px;
   width:100vw;
   left:0;
-  height:calc(100vh - 23%);
+  height : calc(100vh - 90px);
   display:flex;
   flex-direction: column-reverse;
   overflow-y: auto; 
@@ -121,9 +129,8 @@ header{
 }
 
 .nameInput:disabled {
-  width:40%;
+  width:100px;
   outline:none;
-  margin-left: 45%;
   background: rgba(255, 255, 255, 0);
   border:none;
   color: gray;
@@ -133,10 +140,9 @@ header{
 }
 .nameInput{
   outline:none;
-  width:40%;
+  width:100px;
   padding:5px;
   font-size: 15px;
-  margin-left: 45%;
   background: #86CB92;
   border:none;
   border-radius: 20px;
@@ -146,7 +152,6 @@ header{
 }
 
 .nameBtn {
-  width:15%;
   height:20px;
   outline:none;
   background-color:transparent;
@@ -172,4 +177,8 @@ header{
   margin-left: 7px;
   display:inline-block;
   font-family: 'Roboto', sans-serif;
+}
+
+.msgpic {
+  height:150px;
 }

@@ -5,6 +5,8 @@ import { db, useDB } from './db';
 import { BrowserRouter, Route } from 'react-router-dom'
 import { FiSend, FiCamera } from 'react-icons/fi'
 import Camera from 'react-snap-pic'
+import * as firebase from "firebase/app"
+import "firebase/storage"
 
 
 function App() {
@@ -27,9 +29,13 @@ function Room(props) {
   const [showCamera, setShowCamera] = useState(false)
   
   
-  function takePicture(img) {
-    console.log(img)
-    setShowCamera(!showCamera)
+  async function takePicture(img) {
+    setShowCamera(false)
+    const imgID = Math.random().toString(36).substring(7)
+    var storageRef = firebase.storage().ref()
+    var ref = storageRef.child(imgID + '.jpg')
+    await ref.putString(img, 'data_url')
+    db.send({ img: imgID, name, ts: new Date(), room })
   }
 
   return (
@@ -39,29 +45,15 @@ function Room(props) {
         <img alt = "logo" className ="logo" src={require('.\\logo.png')} />
         talktime
       </div>
-      <NamePicker makeName={setName}
-    />
+    <NamePicker makeName={setName}></NamePicker>
     </header>
     
     {showCamera && <Camera takePicture={takePicture} />}
 
       <div className = "messages">
-        {messages.map((m,i)=>{
-          return <div key = {i} onClick = {() => db.delete(m.id)}>
-              <div className = "message-wrap" from = {m.name === name ? "me" : "you"}>
-                <div  className = "message">
-                  {m.text}
-                </div>
-              </div>
-              <div className = "message-wrap" from = {m.name === name ? "me" : "you"}>
-                <div  className = "user">
-                  {m.name}
-                </div>
-              </div>
-          </div>
-        })}
-      
+        {messages.map((m,i)=> <Message key={i} m ={m} name = {name} />)}
     </div>
+
     <TextInput onSend={(text)=>{
       db.send({
         text,name,ts:new Date(), room
@@ -74,7 +66,24 @@ function Room(props) {
   )
 }
 
+const bucket = 'https://firebasestorage.googleapis.com/v0/b/talktime-2020.appspot.com/o/'
+const suffix = '.jpg?alt=media'
 
+function Message({m, name}) {
+  return <div onClick = {() => db.delete(m.id)}>
+  <div className = "message-wrap" from = {m.name === name ? "me" : "you"}>
+    <div  className = "message">
+      {m.text}
+      {m.img && <img className = 'msgpic'src ={bucket + m.img +suffix} alt = "pic" />}
+    </div>
+  </div>
+  <div className = "message-wrap" from = {m.name === name ? "me" : "you"}>
+    <div  className = "user">
+      {m.name}
+    </div>
+  </div>
+</div>
+}
 
 function TextInput(props) {
   const [text, setText] = useState('')

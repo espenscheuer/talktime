@@ -22,7 +22,7 @@ function NamePicker(props){
         }
     }, [])
 
-    return <div className = "center">
+    return <div className = "name-wrap">
         <input
             ref={inputEl}
             disabled = {!editName}
